@@ -2,6 +2,8 @@
 
 An informal pilot app built with Streamlit, Groq, and MongoDB. It evaluates four memory modes for each participant question: `no_memory`, `rag`, `rolling_summary`, and `graph_memory`. Participants can review and rate each answer, choose which mode answered best, switch to chat to add or correct facts, view a personal summary, and export their processed data.
 
+The cross-participant dashboard is available at `/results`. It aggregates answer results and feedback by anonymous participant and memory mode, showing average rated accuracy, latency, estimated cost, and best-mode selections. It does not expose raw answers or comments.
+
 Run with `streamlit run pilot.py`. Configure `.streamlit/secrets.toml` (never commit this file):
 
 ```toml

@@ -12,10 +12,9 @@ import streamlit as st
 from pymongo import MongoClient
 
 from prompts import ANSWER_PROMPT, EXTRACTION_PROMPT
+from results_page import render_results
 
 st.set_page_config(page_title="Memory Lab Pilot", page_icon="🧠", layout="wide")
-st.title("Memory Lab · Pilot")
-st.caption("Informal pilot, not a controlled study.")
 
 CATEGORIES = ["Location", "Work/School", "People", "Interests", "Preferences", "Other"]
 TOPICS = [
@@ -363,6 +362,8 @@ def run_done():
                 st.success("Thank you. Your closing feedback was saved.")
             except Exception: safe_notice("We couldn’t save your closing feedback. Please try again.")
 def main():
+    st.title("Memory Lab · Pilot")
+    st.caption("Informal pilot, not a controlled study.")
     if not init_runtime(): return
     page = st.sidebar.radio("Page", ["Pilot", "Chat", "Summary"])
     if page == "Summary": run_summary(); return
@@ -373,4 +374,9 @@ def main():
     {"consent": run_consent, "intake": run_intake, "review": run_review,
      "test": run_test, "done": run_done}.get(st.session_state.phase, run_consent)()
 
-if __name__ == "__main__": main()
+if __name__ == "__main__":
+    page = st.navigation([
+        st.Page(main, title="Pilot", default=True),
+        st.Page(render_results, title="Results", url_path="results"),
+    ])
+    page.run()
